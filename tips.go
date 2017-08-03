@@ -10,6 +10,8 @@ import (
     "io/ioutil"
     "path/filepath"
     "github.com/BurntSushi/toml"
+    "github.com/russross/blackfriday"
+    "github.com/fatih/color"
 )
 
 type Config struct {
@@ -95,8 +97,6 @@ func pull(conf Config) {
 }
 
 func main() {
-    fmt.Printf("Tips !\n")
-
     // Command line arguments
     flag.Usage = func() {
         fmt.Printf("Usage of %s:\n", os.Args[0])
@@ -129,13 +129,15 @@ func main() {
     }
     target_file := filepath.Join(conf.RepositoryPath, fmt.Sprintf("%s.md", flag.Args()[0]))
     if _, err := os.Stat(target_file); os.IsNotExist(err) {
-        fmt.Printf("No tips for command %s\n", flag.Args()[0])
+        color.Red("No tips for command %s\n", flag.Args()[0])
     } else {
         b, err := ioutil.ReadFile(target_file)
         if err != nil {
             fmt.Print(err)
         }
-        str := string(b)
-        fmt.Println(str)
+        renderer := consoleRenderer()
+        extensions := blackfriday.EXTENSION_FENCED_CODE | blackfriday.EXTENSION_NO_INTRA_EMPHASIS | blackfriday.EXTENSION_SPACE_HEADERS
+        output := blackfriday.Markdown(b, renderer, extensions)
+        fmt.Println(string(output))
     }
 }
