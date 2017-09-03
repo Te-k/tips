@@ -6,11 +6,13 @@ Simple command line tool which display tips for some commands:
 
 For now used with files in https://github.com/Te-k/commands-for-sec but you can configure another repository.
 
-Feel free to improve the code or the tips
+Feel free to improve the code or the tips.
+
+This code is under MIT licence.
 
 ## Options
 
-```
+```bash
 $ tips -h
 Usage of tips:
 tips COMMAND
@@ -22,4 +24,4 @@ tips COMMAND
 
 ## Configuration
 
-Configuration is stored in ~/.config/tips with config being the configuration file and tips the tips repository (git repo). You can update the config file to use your own tip repository or manually manage it.
+Configuration is stored in `~/.config/tips` with config being the configuration file and tips the tips repository (git repo). You can update the config file to use your own tip repository or manually manage it.
