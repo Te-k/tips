@@ -9,6 +9,7 @@ import (
     "bytes"
     "io/ioutil"
     "path/filepath"
+    "strings"
     "github.com/BurntSushi/toml"
     "github.com/russross/blackfriday"
     "github.com/fatih/color"
@@ -105,6 +106,7 @@ func main() {
     }
     optionConfig := flag.Bool("c", false, "List configuration")
     pullConfig := flag.Bool("pull", false, "Pull new directory")
+    listConfig := flag.Bool("l", false, "List available tips")
     flag.Parse()
 
     // Configuration
@@ -120,7 +122,21 @@ func main() {
     }
     if *pullConfig {
         fmt.Printf("Pull data from %s\n", conf.Repository)
-        pull(conf)
+        os.Exit(0)
+    }
+    if *listConfig {
+        fmt.Printf("Available tips:\n")
+        files, err := ioutil.ReadDir(conf.RepositoryPath)
+        if err != nil {
+            fmt.Println(err)
+            os.Exit(0)
+        }
+        for _, f := range files {
+            name := f.Name()
+            if(!strings.HasPrefix(name, ".")) {
+                fmt.Println(name[0:len(name)-3])
+            }
+        }
         os.Exit(0)
     }
     if flag.NArg() != 1 {
