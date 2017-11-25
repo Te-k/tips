@@ -122,6 +122,7 @@ func main() {
     }
     if *pullConfig {
         fmt.Printf("Pull data from %s\n", conf.Repository)
+        pull(conf)
         os.Exit(0)
     }
     if *listConfig {
