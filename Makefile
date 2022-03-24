@@ -5,7 +5,8 @@ FLAGS_LINUX   = GOOS=linux GOARCH=amd64 CGO_ENABLED=1
 .PHONY: build
 build:
 	@echo "[builder] Building tips executable"
-	$(FLAGS_LINUX) packr build -o $(BUILD_FOLDER)/tips
+	go get
+	$(FLAGS_LINUX) go build -o $(BUILD_FOLDER)/tips
 	@echo "[builder] Done!"
 
 .PHONY: lint
