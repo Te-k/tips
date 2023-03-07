@@ -2,17 +2,19 @@
 BUILD_FOLDER  = $(shell pwd)/build
 FLAGS_LINUX   = GOOS=linux GOARCH=amd64 CGO_ENABLED=1
 
+.PHONY: check
+check:
+	@echo "[lint] Running go vet"
+	go vet ./...
+	@echo "[lint] Running staticheck on codebase"
+	@staticcheck ./...
+
 .PHONY: build
 build:
 	@echo "[builder] Building tips executable"
 	go get
 	$(FLAGS_LINUX) go build -o $(BUILD_FOLDER)/tips
 	@echo "[builder] Done!"
-
-.PHONY: lint
-lint:
-	@echo "[lint] Running linter on codebase"
-	@golint ./...
 
 .PHONY: fmt
 fmt:
